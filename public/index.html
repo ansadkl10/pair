@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nexa-MD | Pairing Code</title>
+    <style>
+        :root { --bg: #0f172a; --card: #1e293b; --green: #10b981; --blue: #3b82f6; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: var(--bg); color: white; display: flex; align-items: center; justify-content: center; height: 100vh; margin: 0; }
+        .container { background: var(--card); padding: 40px; border-radius: 20px; box-shadow: 0 20px 50px rgba(0,0,0,0.5); text-align: center; width: 350px; border-bottom: 5px solid var(--green); }
+        h1 { font-size: 24px; margin-bottom: 10px; color: var(--green); }
+        p { color: #94a3b8; font-size: 14px; margin-bottom: 25px; }
+        input { width: 100%; padding: 15px; border-radius: 10px; border: 2px solid #334155; background: #0f172a; color: white; font-size: 16px; margin-bottom: 20px; box-sizing: border-box; outline: none; transition: 0.3s; }
+        input:focus { border-color: var(--blue); }
+        button { width: 100%; padding: 15px; border-radius: 10px; border: none; background: linear-gradient(135deg, var(--green), var(--blue)); color: white; font-weight: bold; cursor: pointer; font-size: 16px; transition: 0.3s; }
+        button:hover { transform: translateY(-2px); opacity: 0.9; }
+        #result { margin-top: 30px; font-size: 28px; font-weight: bold; color: var(--green); letter-spacing: 5px; min-height: 40px; }
+        .loading { color: #64748b; font-size: 14px; margin-top: 10px; display: none; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Nexa-MD</h1>
+        <p>Enter your phone number with country code (e.g. 91xxxxxxxxxx)</p>
+        <input type="number" id="phoneNumber" placeholder="9190xxxxxx">
+        <button onclick="getPairing()">Get Pairing Code</button>
+        <div id="loading" class="loading">Connecting to WhatsApp...</div>
+        <div id="result"></div>
+    </div>
+
+    <script>
+        async function getPairing() {
+            const num = document.getElementById('phoneNumber').value;
+            const resDiv = document.getElementById('result');
+            const loader = document.getElementById('loading');
+            
+            if(!num) return alert("Number please!");
+            
+            resDiv.innerText = "";
+            loader.style.display = "block";
+            
+            try {
+                const response = await fetch(`/session?number=${num}`);
+                const data = await response.json();
+                loader.style.display = "none";
+                
+                if(data.code) {
+                    resDiv.innerText = data.code;
+                } else {
+                    resDiv.innerText = "Error!";
+                }
+            } catch (err) {
+                loader.style.display = "none";
+                alert("Something went wrong!");
+            }
+        }
+    </script>
+</body>
+</html>
