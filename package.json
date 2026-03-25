@@ -1,0 +1,16 @@
+{
+  "name": "nexa-md-pairing",
+  "version": "1.0.0",
+  "description": "Pairing code generator for Nexa-MD",
+  "main": "index.js",
+  "dependencies": {
+    "@eypzx/baileys": "latest",
+    "@hapi/boom": "^10.0.1",
+    "express": "^4.18.2",
+    "pino": "^8.14.1",
+    "qrcode-terminal": "^0.12.0"
+  },
+  "scripts": {
+    "start": "node index.js"
+  }
+}
